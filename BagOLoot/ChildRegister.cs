@@ -24,7 +24,6 @@ namespace BagOLoot
                 _connection.Open ();
                 SqliteCommand dbcmd = _connection.CreateCommand ();
 
-                // Insert the new child
                 dbcmd.CommandText = $"insert into child values (null, '{child}', 0)";
                 Console.WriteLine(dbcmd.CommandText);
                 dbcmd.ExecuteNonQuery ();
@@ -39,8 +38,6 @@ namespace BagOLoot
                         throw new Exception("Unable to insert value");
                     }
                 }
-
-                // clean up
                 dbcmd.Dispose ();
                 _connection.Close ();
             }
@@ -50,11 +47,29 @@ namespace BagOLoot
 
         public string GetChild (int childId)
         {
-            // string child = _children.SingleOrDefault(c => c == childId);
-            string child = "Whoever";
-            Console.WriteLine(child);
+            childId = 2;
+            string _child = "";
+            using (_connection)
+            {
+                _connection.Open ();
+                SqliteCommand dbcmd = _connection.CreateCommand ();
+                dbcmd.CommandText = $"select name from child where id = {childId}";
+                Console.WriteLine(dbcmd.CommandText);
+                dbcmd.ExecuteNonQuery ();
+                using (SqliteDataReader dr = dbcmd.ExecuteReader()) 
+                {
+                    while (dr.Read()) 
+                    {
+                        _child.Equals(dr[0].ToString());
+                    }
+                }
+                dbcmd.Dispose ();
+                _connection.Close ();
+            }
+        
+            Console.WriteLine(_child);
 
-            return child;
+            return _child;
         }
 
         public List<string> GetChildren ()
@@ -73,13 +88,13 @@ namespace BagOLoot
                         _children.Add(dr[0].ToString());
                     }
                 }
-
                 dbcmd.Dispose ();
                 _connection.Close ();
             }
 
-            ConsoleKeyInfo enteredKey = Console.ReadKey();
-            // return int.Parse(enteredKey.KeyChar.ToString());
+            // here needs to be a parse to get the childId only to pass to GetChild
+            // ConsoleKeyInfo enteredKey = Console.ReadKey();
+            // GetChild(int.Parse(enteredKey.KeyChar.ToString()));
 
             return _children;
         }
