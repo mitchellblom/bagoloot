@@ -29,13 +29,6 @@ namespace BagOLoot.Tests
             var result = _register.GetChildren();
             Assert.IsType<List<string>>(result);
         }
-
-        [Fact]
-        public void AddToyToChildShould()
-        {
-            var result = _register.AddToy("Firetruck");
-            Assert.Equal(result, "Firetruck");
-        }
         
     }
 }
