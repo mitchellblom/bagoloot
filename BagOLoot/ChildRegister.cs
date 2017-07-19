@@ -48,11 +48,11 @@ namespace BagOLoot
             return _lastId != 0;
         }
 
-        public string GetChild (string name)
+        public string GetChild (int childId)
         {
-            var child = _children.SingleOrDefault(c => c == name);
-
-            // Inevitably, two children will have the same name. Then what?
+            // string child = _children.SingleOrDefault(c => c == childId);
+            string child = "Whoever";
+            Console.WriteLine(child);
 
             return child;
         }
@@ -74,10 +74,12 @@ namespace BagOLoot
                     }
                 }
 
-                // clean up
                 dbcmd.Dispose ();
                 _connection.Close ();
             }
+
+            ConsoleKeyInfo enteredKey = Console.ReadKey();
+            // return int.Parse(enteredKey.KeyChar.ToString());
 
             return _children;
         }

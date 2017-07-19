@@ -40,6 +40,18 @@ namespace BagOLoot
                     Console.WriteLine($"{i+1}. {children[i]}");
                 }
                 Console.Write ("> ");
+                
+            }
+            if (choice == 3)
+            {
+                Console.WriteLine ("From which child?");
+                ChildRegister registry = new ChildRegister();
+                var children = registry.GetChildren();
+                for (int i = 0; i < children.Count; i++)
+                {
+                    Console.WriteLine($"{i+1}. {children[i]}");
+                }
+                Console.Write ("> ");
             }
 
         }
