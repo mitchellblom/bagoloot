@@ -48,11 +48,6 @@ namespace BagOLoot
             return _lastId != 0;
         }
 
-        public List<string> GetChildren ()
-        {
-            return new List<string>();
-        }
-
         public string GetChild (string name)
         {
             var child = _children.SingleOrDefault(c => c == name);
@@ -61,6 +56,17 @@ namespace BagOLoot
 
             return child;
         }
+
+        public List<string> GetChildren ()
+        {
+            return new List<string>();
+        }
+
+        public List<string> GetChildrenWhoWillGetToy ()
+        {
+            return new List<string>();
+        }
+
 
     }
 }

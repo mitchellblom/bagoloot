@@ -29,6 +29,13 @@ namespace BagOLoot.Tests
             var result = _register.GetChildren();
             Assert.IsType<List<string>>(result);
         }
+
+        [Fact]
+        public void ReturnListOfChildrenWhoWillGetToy()
+        {
+            var result = _register.GetChildrenWhoWillGetToy();
+            Assert.IsType<List<string>>(result);
+        }
         
     }
 }
