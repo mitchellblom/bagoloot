@@ -23,6 +23,11 @@ namespace BagOLoot
             return new List<int>() {4,6,7,8};
         }
 
+        public bool SetDelivered(int childId)
+        {
+            return true;
+        }
+
     }
 
 }

@@ -35,5 +35,14 @@ namespace BagOLoot.Tests
             Assert.DoesNotContain(toyId, toys);
         }
 
+        [Fact]
+        public void SetDeliveredStatusForChild() 
+        {
+            int childId = 715;
+            bool deliveredStatus = _helper.SetDelivered(childId);
+
+            Assert.Equal(deliveredStatus, true);
+        }
+
     }
 }
