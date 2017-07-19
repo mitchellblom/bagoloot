@@ -14,6 +14,7 @@ namespace BagOLoot
             Console.WriteLine ("WELCOME TO THE BAG O' LOOT SYSTEM");
             Console.WriteLine ("*********************************");
             Console.WriteLine ("1. Add a child");
+            Console.WriteLine ("2. Assign toy to a child");
 			Console.Write ("> ");
 
 			// Read in the user's choice
@@ -29,6 +30,18 @@ namespace BagOLoot
                 bool childId = registry.AddChild(childName);
                 Console.WriteLine(childId);
             }
+            if (choice == 2)
+            {
+                Console.WriteLine ("To which child?");
+                ChildRegister registry = new ChildRegister();
+                var children = registry.GetChildren();
+                for (int i = 0; i < children.Count; i++)
+                {
+                    Console.WriteLine($"{i+1}. {children[i]}");
+                }
+                Console.Write ("> ");
+            }
+
         }
     }
 }
