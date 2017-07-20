@@ -7,7 +7,7 @@ namespace BagOLoot
 {
     public class ChildRegister
     {
-        private List<string> _children = new List<string>();
+        private List<Child> _children = new List<Child>();
         private string _connectionString = $"Data Source={Environment.GetEnvironmentVariable("BAGOLOOT_DB")}";
         private SqliteConnection _connection;
 
@@ -45,49 +45,24 @@ namespace BagOLoot
             return _lastId != 0;
         }
 
-        public string GetChild (int childId)
+        public List<Child> GetChildren ()
         {
-            string _child = "";
             using (_connection)
             {
                 _connection.Open ();
                 SqliteCommand dbcmd = _connection.CreateCommand ();
-                dbcmd.CommandText = $"select c.name from child c where c.id = {childId}";
-                dbcmd.ExecuteNonQuery ();
-                using (SqliteDataReader dr = dbcmd.ExecuteReader()) 
+                dbcmd.CommandText = "select id, name, delivered from child";
+                using (SqliteDataReader dr = dbcmd.ExecuteReader())
                 {
                     while (dr.Read())
                     {
-                        _child.Equals(dr[0].ToString());
+                        _children.Add(new Child(dr.GetInt32(0), dr[1].ToString(), dr.GetInt32(2)));
                     }
                 }
+                Console.WriteLine($"_children = {_children.Count}");
                 dbcmd.Dispose ();
                 _connection.Close ();
             }
-            Console.WriteLine(_child);
-            return _child;
-        }
-
-        public List<string> GetChildren ()
-        {
-            using (_connection)
-            {
-                _connection.Open ();
-                SqliteCommand dbcmd = _connection.CreateCommand ();
-                dbcmd.CommandText = $"select name from child";
-                Console.WriteLine(dbcmd.CommandText);
-                dbcmd.ExecuteNonQuery ();
-                using (SqliteDataReader dr = dbcmd.ExecuteReader()) 
-                {
-                    while (dr.Read()) 
-                    {
-                        _children.Add(dr[0].ToString());
-                    }
-                }
-                dbcmd.Dispose ();
-                _connection.Close ();
-            }
-
             return _children;
         }
 
@@ -95,7 +70,6 @@ namespace BagOLoot
         {
             return new List<string>();
         }
-
 
     }
 }

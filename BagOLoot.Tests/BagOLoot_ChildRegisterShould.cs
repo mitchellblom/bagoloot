@@ -13,14 +13,6 @@ namespace BagOLoot.Tests
             _register = new ChildRegister();
         }
 
-        [Fact]
-        public void GetChildShould()
-        {
-            int childId = 2;
-            var result = _register.GetChild(childId);
-            Assert.IsType<string>(result);
-        }
-
         [Theory]
         [InlineData("Sarah")]
         [InlineData("Jamal")]
@@ -35,7 +27,7 @@ namespace BagOLoot.Tests
         public void ReturnListOfChildren()
         {
             var result = _register.GetChildren();
-            Assert.IsType<List<string>>(result);
+            Assert.IsType<List<Child>>(result);
         }
 
         [Fact]

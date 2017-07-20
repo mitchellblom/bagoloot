@@ -17,7 +17,7 @@ namespace BagOLoot
             _connection = new SqliteConnection(_connectionString);
         }
 
-        public void Check ()
+        public void CheckForChildTable ()
         {
             using (_connection)
             {
@@ -53,5 +53,42 @@ namespace BagOLoot
                 _connection.Close ();
             }
         }
+
+        public void CheckForToyTable ()
+        {
+            using (_connection)
+            {
+                _connection.Open();
+                SqliteCommand dbcmd = _connection.CreateCommand ();
+
+                dbcmd.CommandText = $"select id from toy";
+
+                try
+                {
+                    using (SqliteDataReader reader = dbcmd.ExecuteReader()) // read with a select statement
+                    {
+                        
+                    }
+                    dbcmd.Dispose ();
+                }
+                catch (Microsoft.Data.Sqlite.SqliteException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    if (ex.Message.Contains("no such table"))
+                    {
+                        dbcmd.CommandText = $@"create table child (
+                            `id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+                            `name`	varchar(80) not null,
+                            `childId` integer not null default 0
+                        )";
+                            // FOREIGN KEY for childId within CommandText?
+                        dbcmd.ExecuteNonQuery ();
+                        dbcmd.Dispose ();
+                    }
+                }
+                _connection.Close ();
+            }
+        }
+
     }
 }

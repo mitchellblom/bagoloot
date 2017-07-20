@@ -10,7 +10,8 @@ namespace BagOLoot
         public static void Main(string[] args)
         {
             var db = new DatabaseInterface();
-            db.Check();
+            db.CheckForChildTable();
+            db.CheckForToyTable();
 
             Console.WriteLine ("WELCOME TO THE BAG O' LOOT SYSTEM");
             Console.WriteLine ("*********************************");
@@ -22,36 +23,36 @@ namespace BagOLoot
 			int choice;
 			Int32.TryParse (Console.ReadLine(), out choice);
 
+            ChildRegister registry = new ChildRegister();
+
             if (choice == 1)
             {
                 Console.WriteLine ("Enter child name");
                 Console.Write ("> ");
                 string childName = Console.ReadLine();
-                ChildRegister registry = new ChildRegister();
                 bool childId = registry.AddChild(childName);
                 Console.WriteLine(childId);
             }
             if (choice == 2)
             {
                 Console.WriteLine ("To which child?");
-                ChildRegister registry = new ChildRegister();
                 SantaHelper helper = new SantaHelper();
-                var children = registry.GetChildren();
+                List<Child> children = registry.GetChildren();
+                Console.WriteLine($"children.Count = {children.Count}");
                 for (int i = 0; i < children.Count; i++)
                 {
-                    Console.WriteLine($"{i+1}. {children[i]}");
+                    Console.WriteLine($"{i+1}. {children[i].name}");
                 }
                 Console.Write ("> ");
-                int childId = Int32.Parse(Console.ReadLine());
-                string child = registry.GetChild(childId);
-                Console.Write ($"What toy should {child} get?");
+                int enteredKey = Int32.Parse(Console.ReadLine());
+                Child chosenChild = children[enteredKey-1];
+                Console.Write ($"What toy should {chosenChild.name} get?");
                 string toyToAdd = Console.ReadLine();
-                helper.AddToyToBag(toyToAdd, childId);
+                helper.AddToyToBag(toyToAdd, chosenChild.id);
             }
             if (choice == 3)
             {
                 Console.WriteLine ("From which child?");
-                ChildRegister registry = new ChildRegister();
                 var children = registry.GetChildren();
                 for (int i = 0; i < children.Count; i++)
                 {
