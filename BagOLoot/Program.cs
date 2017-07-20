@@ -5,6 +5,7 @@ using System.Linq;
 namespace BagOLoot
 {
     public class Program
+
     {
         public static void Main(string[] args)
         {
@@ -34,13 +35,18 @@ namespace BagOLoot
             {
                 Console.WriteLine ("To which child?");
                 ChildRegister registry = new ChildRegister();
+                SantaHelper helper = new SantaHelper();
                 var children = registry.GetChildren();
                 for (int i = 0; i < children.Count; i++)
                 {
                     Console.WriteLine($"{i+1}. {children[i]}");
                 }
                 Console.Write ("> ");
-                
+                int childId = Int32.Parse(Console.ReadLine());
+                string child = registry.GetChild(childId);
+                Console.Write ($"What toy should {child} get?");
+                string toyToAdd = Console.ReadLine();
+                helper.AddToyToBag(toyToAdd, childId);
             }
             if (choice == 3)
             {

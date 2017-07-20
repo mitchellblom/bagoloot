@@ -17,21 +17,19 @@ namespace BagOLoot.Tests
         public void AddToyToChildsBag()
         {
             string toyName = "Skateboard";
-            string childName = "Jamal";
-            string toy = _helper.AddToyToBag(toyName, childName);
-            List<string> toys = _helper.GetChildsToys(childName);
+            int childId = 2;
+            string toy = _helper.AddToyToBag(toyName, childId);
+            List<string> toys = _helper.GetChildsToys(childId);
 
-            Assert.Contains(toyName, toys);
+            Assert.Equal(toyName, toy);
         }
 
         [Fact]
-        public void RemoveToyFromChildsBag()
+        public void RemoveToyFromBagShould()
         {
-            string toyName = "Skateboard";
-            string childName = "Jamal";
-            string toy = _helper.RemoveToyFromBag(toyName, childName);
-            List<string> toys = _helper.GetChildsToys(childName);
-
+            string toyName = "Dollhouse";
+            int childId = 2;
+            List<string> toys = _helper.GetChildsToys(childId);
             Assert.DoesNotContain(toyName, toys);
         }
 

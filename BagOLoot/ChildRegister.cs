@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Data.Sqlite;
-using ;
 
 namespace BagOLoot
 {
@@ -46,32 +45,28 @@ namespace BagOLoot
             return _lastId != 0;
         }
 
-        // public string GetChild (string name)
-        // {
-        //     childId = 2;
-        //     string _child = "";
-        //     using (_connection)
-        //     {
-        //         _connection.Open ();
-        //         SqliteCommand dbcmd = _connection.CreateCommand ();
-        //         dbcmd.CommandText = $"select name from child where id = {childId}";
-        //         Console.WriteLine(dbcmd.CommandText);
-        //         dbcmd.ExecuteNonQuery ();
-        //         using (SqliteDataReader dr = dbcmd.ExecuteReader()) 
-        //         {
-        //             while (dr.Read()) 
-        //             {
-        //                 _child.Equals(dr[0].ToString());
-        //             }
-        //         }
-        //         dbcmd.Dispose ();
-        //         _connection.Close ();
-        //     }
-        
-        //     Console.WriteLine(_child);
-
-        //     return _child;
-        // }
+        public string GetChild (int childId)
+        {
+            string _child = "";
+            using (_connection)
+            {
+                _connection.Open ();
+                SqliteCommand dbcmd = _connection.CreateCommand ();
+                dbcmd.CommandText = $"select c.name from child c where c.id = {childId}";
+                dbcmd.ExecuteNonQuery ();
+                using (SqliteDataReader dr = dbcmd.ExecuteReader()) 
+                {
+                    while (dr.Read())
+                    {
+                        _child.Equals(dr[0].ToString());
+                    }
+                }
+                dbcmd.Dispose ();
+                _connection.Close ();
+            }
+            Console.WriteLine(_child);
+            return _child;
+        }
 
         public List<string> GetChildren ()
         {
@@ -92,13 +87,6 @@ namespace BagOLoot
                 dbcmd.Dispose ();
                 _connection.Close ();
             }
-
-            // I need to separate the numbers, decimal, and space from the name string
-            // Then I need to add that name to a sql query variable
-            // Then I need to...
-            
-            ConsoleKeyInfo enteredKey = Console.ReadKey();
-            GetChild(int.Parse(enteredKey.KeyChar.ToString()));
 
             return _children;
         }

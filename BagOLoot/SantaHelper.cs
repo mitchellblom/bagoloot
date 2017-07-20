@@ -8,18 +8,19 @@ namespace BagOLoot
     public class SantaHelper
     {
 
-        public string AddToyToBag(string toy, string child)
+        public string AddToyToBag(string toy, int childId)
         {
+    
             string toyAdded = "Skateboard";
             return toyAdded;
         }
 
-        public string RemoveToyFromBag(string toy, string child)
+        public string RemoveToyFromBag(string toy, int childId)
         {
             return "removed";
         }
 
-        public List<string> GetChildsToys(string toys)
+        public List<string> GetChildsToys(int childId)
         {
             return new List<string>() {"Skateboard", "Basketball"};
         }
