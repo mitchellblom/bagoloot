@@ -19,6 +19,8 @@ namespace BagOLoot
 
         public string AddToyToBag(string toy, int childId)
         {
+            Console.WriteLine(toy);
+            Console.WriteLine(childId);
             int _lastId = 0;
             using (_connection)
             {

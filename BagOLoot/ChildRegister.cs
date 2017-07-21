@@ -49,7 +49,7 @@ namespace BagOLoot
             {
                 _connection.Open ();
                 SqliteCommand dbcmd = _connection.CreateCommand ();
-                dbcmd.CommandText = "select name from toy where toy.childId = {}";
+                dbcmd.CommandText = "select id, name, delivered from child";
                 using (SqliteDataReader dr = dbcmd.ExecuteReader())
                 {
                     while (dr.Read())
@@ -57,7 +57,6 @@ namespace BagOLoot
                         _children.Add(new Child(dr.GetInt32(0), dr[1].ToString(), dr.GetInt32(2)));
                     }
                 }
-                Console.WriteLine($"_children = {_children.Count}");
                 dbcmd.Dispose ();
                 _connection.Close ();
             }
