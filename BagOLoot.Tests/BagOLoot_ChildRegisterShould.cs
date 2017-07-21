@@ -9,12 +9,17 @@ namespace BagOLoot.Tests
         private readonly ChildRegister _register;
         private readonly DatabaseInterface _db;
 
+        // public ChildRegisterShould()
+        // {
+        //     _db = new DatabaseInterface("BAGOLOOT_TEST_DB");
+        //     _register = new ChildRegister(_db);
+        //     _db.CheckForChildTable();
+        //     _db.CheckForToyTable();
+        // }
+
         public ChildRegisterShould()
         {
-            _db = new DatabaseInterface("BAGOLOOT_TEST_DB");
             _register = new ChildRegister(_db);
-            _db.CheckForChildTable();
-            _db.CheckForToyTable();
         }
 
         [Theory]
@@ -30,7 +35,7 @@ namespace BagOLoot.Tests
         [Fact]
         public void ReturnListOfChildren()
         {
-            _register.AddChild("BabySpock")
+            _register.AddChild("BabySpock");
             var result = _register.GetChildren();
             Assert.IsType<List<Child>>(result);
         }
@@ -44,8 +49,8 @@ namespace BagOLoot.Tests
 
         public void Dispose()
         {
-            _db.Delete("delete from child");
-            _db.Delete("delete from toy");
+            // _db.Delete("delete from child");
+            // _db.Delete("delete from toy");
         }
         
     }

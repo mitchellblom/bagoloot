@@ -18,6 +18,7 @@ namespace BagOLoot
         public ChildRegister(DatabaseInterface db)
         {
             _db = db;
+            _connection = new SqliteConnection(_connectionString);
         }
 
         public bool AddChild (string child) 

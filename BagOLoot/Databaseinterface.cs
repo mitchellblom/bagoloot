@@ -9,7 +9,7 @@ namespace BagOLoot
 {
     public class DatabaseInterface
     {
-        private string _connectionString = $"Data Source={Environment.GetEnvironmentVariable("BAGOLOOT_DB")}";
+        private string _connectionString;
         private SqliteConnection _connection;
 
         public DatabaseInterface(string database)
@@ -17,6 +17,67 @@ namespace BagOLoot
             string env = $"{Environment.GetEnvironmentVariable(database)}";
             _connectionString = $"Data Source={env}";
             _connection = new SqliteConnection(_connectionString);
+        }
+
+         public void Query(string command, Action<SqliteDataReader> handler)
+        {
+            using (_connection)
+            {
+                _connection.Open ();
+                SqliteCommand dbcmd = _connection.CreateCommand ();
+                dbcmd.CommandText = command;
+
+                using (SqliteDataReader dataReader = dbcmd.ExecuteReader()) 
+                {
+                    handler (dataReader);
+                }
+
+                dbcmd.Dispose ();
+                _connection.Close ();
+            }
+        }
+
+        public void Delete(string command)
+        {
+            using (_connection)
+            {
+                _connection.Open ();
+                SqliteCommand dbcmd = _connection.CreateCommand ();
+                dbcmd.CommandText = command;
+                
+                dbcmd.ExecuteNonQuery ();
+
+                dbcmd.Dispose ();
+                _connection.Close ();
+            }
+        }
+
+        public int Insert(string command)
+        {
+            int insertedItemId = 0;
+
+            using (_connection)
+            {
+                _connection.Open ();
+                SqliteCommand dbcmd = _connection.CreateCommand ();
+                dbcmd.CommandText = command;
+                
+                dbcmd.ExecuteNonQuery ();
+
+                this.Query("select last_insert_rowid()",
+                    (SqliteDataReader reader) => {
+                        while (reader.Read ())
+                        {
+                            insertedItemId = reader.GetInt32(0);
+                        }
+                    }
+                );
+
+                dbcmd.Dispose ();
+                _connection.Close ();
+            }
+
+            return insertedItemId;
         }
 
         public void CheckForChildTable ()
@@ -91,26 +152,6 @@ namespace BagOLoot
                 _connection.Close ();
             }
         }
-
-        public void Delete(string command)
-        {
-            using (_connection)
-            {
-                _connection.Open ();
-                SqliteCommand dbcmd = _connection.CreateCommand ();
-                dbcmd.CommandText = command;
-                
-                dbcmd.ExecuteNonQuery ();
-
-                dbcmd.Dispose ();
-                _connection.Close ();
-            }
-        }
-
-        // public int Insert(string command)
-        // {
-
-        // }
 
     }
 }

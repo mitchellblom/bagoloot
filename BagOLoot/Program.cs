@@ -9,7 +9,7 @@ namespace BagOLoot
     {
         public static void Main(string[] args)
         {
-            var db = new DatabaseInterface();
+            DatabaseInterface db = new DatabaseInterface("BAGOLOOT_DB");
             db.CheckForChildTable();
             db.CheckForToyTable();
 
@@ -26,7 +26,7 @@ namespace BagOLoot
 			int choice;
 			Int32.TryParse (Console.ReadLine(), out choice);
 
-            ChildRegister registry = new ChildRegister();
+            ChildRegister registry = new ChildRegister(db);
 
             if (choice == 1)
             {
