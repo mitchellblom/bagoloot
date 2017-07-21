@@ -25,7 +25,6 @@ namespace BagOLoot
                 SqliteCommand dbcmd = _connection.CreateCommand ();
 
                 dbcmd.CommandText = $"insert into child values (null, '{child}', 0)";
-                Console.WriteLine(dbcmd.CommandText);
                 dbcmd.ExecuteNonQuery ();
 
                 // Get the id of the new row
@@ -41,7 +40,6 @@ namespace BagOLoot
                 dbcmd.Dispose ();
                 _connection.Close ();
             }
-
             return _lastId != 0;
         }
 
@@ -51,7 +49,7 @@ namespace BagOLoot
             {
                 _connection.Open ();
                 SqliteCommand dbcmd = _connection.CreateCommand ();
-                dbcmd.CommandText = "select id, name, delivered from child";
+                dbcmd.CommandText = "select name from toy where toy.childId = {}";
                 using (SqliteDataReader dr = dbcmd.ExecuteReader())
                 {
                     while (dr.Read())

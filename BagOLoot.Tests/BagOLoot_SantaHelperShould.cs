@@ -19,7 +19,7 @@ namespace BagOLoot.Tests
             string toyName = "Skateboard";
             int childId = 2;
             string toy = _helper.AddToyToBag(toyName, childId);
-            List<string> toys = _helper.GetChildsToys(childId);
+            List<Toy> toys = _helper.GetChildsToys(childId);
 
             Assert.Equal(toyName, toy);
         }
@@ -27,10 +27,22 @@ namespace BagOLoot.Tests
         [Fact]
         public void RemoveToyFromBagShould()
         {
-            string toyName = "Dollhouse";
+            int toyIdToRemove = 2;
+            List<Toy> toys = _helper.RemoveToyFromBag(toyIdToRemove);
+            List<int> toyIdList = new List<int>();
+            foreach (Toy toy in toys)
+            {
+                toyIdList.Add(toy.id);
+            }
+            Assert.DoesNotContain(toyIdToRemove, toyIdList);
+        }
+
+        [Fact]
+        public void GetChildsToysShould()
+        {
             int childId = 2;
-            List<string> toys = _helper.GetChildsToys(childId);
-            Assert.DoesNotContain(toyName, toys);
+            List<Toy> toys = _helper.GetChildsToys(childId);
+            Assert.IsType<List<Toy>>(toys);
         }
 
         [Fact]

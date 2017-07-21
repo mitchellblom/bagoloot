@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace BagOLoot 
 {
-    public class Child
+    public class Toy
     {
         private int _id;
 
         private string _name;
 
-        private int _delivered;
+        private int _childId;
 
         public int id
         {
@@ -18,7 +18,6 @@ namespace BagOLoot
                 return _id;
             }
         }
-
         public string name
         {
             get 
@@ -26,20 +25,19 @@ namespace BagOLoot
                 return _name;
             }
         }
-
-        public int delivered
+        public int childId
         {
             get 
             {
-                return _delivered;
+                return _childId;
             }
         }
 
-        public Child(int id, string name, int delivered)
+        public Toy(int id, string name, int childId)
         {
             this._id = id;
             this._name = name;
-            this._delivered = delivered;
+            this._childId = childId;
         }
     }
 }
