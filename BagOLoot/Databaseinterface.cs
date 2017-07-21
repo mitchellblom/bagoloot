@@ -12,8 +12,10 @@ namespace BagOLoot
         private string _connectionString = $"Data Source={Environment.GetEnvironmentVariable("BAGOLOOT_DB")}";
         private SqliteConnection _connection;
 
-        public DatabaseInterface()
+        public DatabaseInterface(string database)
         {
+            string env = $"{Environment.GetEnvironmentVariable(database)}";
+            _connectionString = $"Data Source={env}";
             _connection = new SqliteConnection(_connectionString);
         }
 
@@ -89,6 +91,26 @@ namespace BagOLoot
                 _connection.Close ();
             }
         }
+
+        public void Delete(string command)
+        {
+            using (_connection)
+            {
+                _connection.Open ();
+                SqliteCommand dbcmd = _connection.CreateCommand ();
+                dbcmd.CommandText = command;
+                
+                dbcmd.ExecuteNonQuery ();
+
+                dbcmd.Dispose ();
+                _connection.Close ();
+            }
+        }
+
+        // public int Insert(string command)
+        // {
+
+        // }
 
     }
 }

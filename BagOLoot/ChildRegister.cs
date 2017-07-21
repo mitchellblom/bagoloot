@@ -8,12 +8,16 @@ namespace BagOLoot
     public class ChildRegister
     {
         private List<Child> _children = new List<Child>();
+        private DatabaseInterface _db;
+
+        // delete this when refactored: //////
         private string _connectionString = $"Data Source={Environment.GetEnvironmentVariable("BAGOLOOT_DB")}";
         private SqliteConnection _connection;
-
-        public ChildRegister()
+        // //////////////////////////////////
+    
+        public ChildRegister(DatabaseInterface db)
         {
-            _connection = new SqliteConnection(_connectionString);
+            _db = db;
         }
 
         public bool AddChild (string child) 

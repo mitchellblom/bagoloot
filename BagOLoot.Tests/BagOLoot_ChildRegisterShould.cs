@@ -4,19 +4,23 @@ using Xunit;
 
 namespace BagOLoot.Tests
 {
-    public class ChildRegisterShould
+    public class ChildRegisterShould: IDisposable
     {
         private readonly ChildRegister _register;
+        private readonly DatabaseInterface _db;
 
         public ChildRegisterShould()
         {
-            _register = new ChildRegister();
+            _db = new DatabaseInterface("BAGOLOOT_TEST_DB");
+            _register = new ChildRegister(_db);
+            _db.CheckForChildTable();
+            _db.CheckForToyTable();
         }
 
         [Theory]
-        [InlineData("Sarah")]
-        [InlineData("Jamal")]
-        [InlineData("Kelly")]
+        [InlineData("Unis")]
+        [InlineData("Bert")]
+        [InlineData("Fern")]
         public void AddChildren(string child)
         {
             var result = _register.AddChild(child);
@@ -26,6 +30,7 @@ namespace BagOLoot.Tests
         [Fact]
         public void ReturnListOfChildren()
         {
+            _register.AddChild("BabySpock")
             var result = _register.GetChildren();
             Assert.IsType<List<Child>>(result);
         }
@@ -35,6 +40,12 @@ namespace BagOLoot.Tests
         {
             var result = _register.GetChildrenWhoWillGetToy();
             Assert.IsType<List<string>>(result);
+        }
+
+        public void Dispose()
+        {
+            _db.Delete("delete from child");
+            _db.Delete("delete from toy");
         }
         
     }
