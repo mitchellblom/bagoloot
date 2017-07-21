@@ -19,8 +19,6 @@ namespace BagOLoot
 
         public string AddToyToBag(string toy, int childId)
         {
-            Console.WriteLine(toy);
-            Console.WriteLine(childId);
             int _lastId = 0;
             using (_connection)
             {
@@ -40,9 +38,7 @@ namespace BagOLoot
                 dbcmd.Dispose ();
                 _connection.Close ();
             }
-    
-            string toyAdded = "Skateboard";
-            return toyAdded;
+            return toy;
         }
 
         public List<Toy> RemoveToyFromBag(int toyIdToRemove)
@@ -85,7 +81,6 @@ namespace BagOLoot
                         _toys.Add(new Toy(dr.GetInt32(0), dr[1].ToString(), dr.GetInt32(2)));
                     }
                 }
-                Console.WriteLine($"_toys = {_toys.Count}");
                 dbcmd.Dispose ();
                 _connection.Close ();
             }

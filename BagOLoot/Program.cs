@@ -66,12 +66,16 @@ namespace BagOLoot
                 Console.Write ("> ");
                 int enteredKey = Int32.Parse(Console.ReadLine());
                 Child chosenChild = children[enteredKey-1];
-                // get toys for that chosenChild
-                // display toy list for that chosenChild
-                string toyToRemove = Console.ReadLine();
-                // helper.RemoveToyFromBag(toyToRemove);
+                List<Toy>childsToys = helper.GetChildsToys(chosenChild.id);
+                Console.WriteLine($"Which toy would you like to remove from {chosenChild.name}'s Bag o' Loot? ");
+                for (int i = 0; i < childsToys.Count; i++)
+                {
+                    Console.WriteLine($"{i+1}. {childsToys[i].name}");
+                }
+                int enteredKey2 = Int32.Parse(Console.ReadLine());
+                Toy toyToRemove = childsToys[enteredKey2-1];
+                helper.RemoveToyFromBag(toyToRemove.id);
             }
-
         }
     }
 }
